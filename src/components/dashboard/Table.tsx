@@ -1,123 +1,329 @@
-type Row = {
-  id: number;
-  issue: string;
+import DownArrowIcon from "../../assets/icons/DownArrowIcon";
+import PlusIcon from "../../assets/icons/PlusIcon";
+import FileIcon from "../../assets/icons/FileIcon";
+import AccessibiltyIcon from "../../assets/icons/AccessibiltyIcon";
+import UserIcon from "../../assets/icons/UserIcon";
+import NotAssignedIcon from "../../assets/icons/NotAssignedIcon";
+import MoreIcon from "../../assets/icons/MoreIcon";
+
+interface TableRow {
+  id: string;
+  issueName: string;
   category: string;
   area: string;
-  severity: "Low" | "Medium" | "High" | "Critical";
+  severity: "High" | "Medium" | "Low";
   wcag: string;
   page: string;
-  total: number;
-  assigned: string;
+  totalIssues: number;
+  assigned: {
+    type: "assigned" | "multiple" | "not-assigned";
+    names?: string[];
+  };
+}
+
+const mockData: TableRow[] = [
+  {
+    id: "1",
+    issueName: "Issue Name",
+    category: "Text-alt",
+    area: "Content",
+    severity: "High",
+    wcag: "Alt Text 1.1.1",
+    page: "/contact",
+    totalIssues: 22,
+    assigned: {
+      type: "assigned",
+      names: ["Yassine"],
+    },
+  },
+  {
+    id: "2",
+    issueName: "Issue Name",
+    category: "Text-alt",
+    area: "Content",
+    severity: "High",
+    wcag: "Multiple (1)",
+    page: "/contact",
+    totalIssues: 22,
+    assigned: {
+      type: "assigned",
+      names: ["Yassine"],
+    },
+  },
+  {
+    id: "3",
+    issueName: "Issue Name",
+    category: "Text-alt",
+    area: "Content",
+    severity: "High",
+    wcag: "Multiple (2)",
+    page: "/contact",
+    totalIssues: 22,
+    assigned: {
+      type: "assigned",
+      names: ["Yassine"],
+    },
+  },
+  {
+    id: "4",
+    issueName: "Issue Name",
+    category: "Text-alt",
+    area: "Content",
+    severity: "High",
+    wcag: "Multiple (3)",
+    page: "/contact",
+    totalIssues: 22,
+    assigned: {
+      type: "multiple",
+      names: ["Said", "Yassine"],
+    },
+  },
+  {
+    id: "5",
+    issueName: "Issue Name",
+    category: "Text-alt",
+    area: "Content",
+    severity: "High",
+    wcag: "Multiple (4)",
+    page: "/contact",
+    totalIssues: 22,
+    assigned: {
+      type: "not-assigned",
+    },
+  },
+  {
+    id: "6",
+    issueName: "Issue Name",
+    category: "Text-alt",
+    area: "Content",
+    severity: "High",
+    wcag: "Multiple (5)",
+    page: "/contact",
+    totalIssues: 22,
+    assigned: {
+      type: "not-assigned",
+    },
+  },
+  {
+    id: "7",
+    issueName: "Issue Name",
+    category: "Text-alt",
+    area: "Content",
+    severity: "High",
+    wcag: "Multiple (5)",
+    page: "/contact",
+    totalIssues: 22,
+    assigned: {
+      type: "not-assigned",
+    },
+  },
+  {
+    id: "8",
+    issueName: "Issue Name",
+    category: "Text-alt",
+    area: "Content",
+    severity: "High",
+    wcag: "Multiple (5)",
+    page: "/contact",
+    totalIssues: 22,
+    assigned: {
+      type: "not-assigned",
+    },
+  },
+];
+
+const getSeverityColor = (severity: string) => {
+  switch (severity) {
+    case "High":
+      return "text-[#093B42]";
+    case "Medium":
+      return "text-yellow-500";
+    case "Low":
+      return "text-green-500";
+    default:
+      return "text-gray-500";
+  }
 };
 
-const rows: Row[] = Array.from({ length: 12 }).map((_, i) => ({
-  id: i + 1,
-  issue: "Issue Name",
-  category: "Tech-ast",
-  area: "Content",
-  severity: "High",
-  wcag: "AA",
-  page: "/contact",
-  total: 22,
-  assigned: "No one",
-}));
+const getSeverityDotColor = (severity: string) => {
+  switch (severity) {
+    case "High":
+      return "bg-red-500";
+    case "Medium":
+      return "bg-yellow-500";
+    case "Low":
+      return "bg-green-500";
+    default:
+      return "bg-gray-500";
+  }
+};
 
 export default function Table() {
   return (
-    <section className="px-4 md:px-6 lg:px-8 xl:px-10 mt-6">
-      <div className="rounded-2xl border border-slate-200 overflow-hidden bg-white">
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm lg:text-base min-w-[800px]">
-            <thead className="bg-slate-50 text-slate-600">
-              <tr>
-                <th className="px-4 lg:px-5 xl:px-6 py-3 lg:py-4">Issue</th>
-                <th className="px-4 lg:px-5 xl:px-6 py-3 lg:py-4">Category</th>
-                <th className="px-4 lg:px-5 xl:px-6 py-3 lg:py-4">Area</th>
-                <th className="px-4 lg:px-5 xl:px-6 py-3 lg:py-4">Severity</th>
-                <th className="px-4 lg:px-5 xl:px-6 py-3 lg:py-4">WCAG</th>
-                <th className="px-4 lg:px-5 xl:px-6 py-3 lg:py-4">Page</th>
-                <th className="px-4 lg:px-5 xl:px-6 py-3 lg:py-4">
-                  Total Issues
-                </th>
-                <th className="px-4 lg:px-5 xl:px-6 py-3 lg:py-4">Assigned</th>
-                <th className="px-4 lg:px-5 xl:px-6 py-3 lg:py-4"></th>
-              </tr>
-            </thead>
-            <tbody>
-              {rows.map((r, idx) => (
-                <tr
-                  key={r.id}
-                  className={idx % 2 ? "bg-white" : "bg-slate-50/50"}
-                >
-                  <td className="px-4 lg:px-5 xl:px-6 py-3 lg:py-4 font-medium text-slate-900">
-                    {r.issue}
-                  </td>
-                  <td className="px-4 lg:px-5 xl:px-6 py-3 lg:py-4">
-                    {r.category}
-                  </td>
-                  <td className="px-4 lg:px-5 xl:px-6 py-3 lg:py-4">
-                    {r.area}
-                  </td>
-                  <td className="px-4 lg:px-5 xl:px-6 py-3 lg:py-4">
-                    <span className="inline-flex items-center rounded-full bg-rose-50 text-rose-700 border border-rose-200 px-2 py-0.5 text-xs lg:text-sm">
-                      {r.severity}
-                    </span>
-                  </td>
-                  <td className="px-4 lg:px-5 xl:px-6 py-3 lg:py-4">
-                    {r.wcag}
-                  </td>
-                  <td className="px-4 lg:px-5 xl:px-6 py-3 lg:py-4">
-                    {r.page}
-                  </td>
-                  <td className="px-4 lg:px-5 xl:px-6 py-3 lg:py-4">
-                    {r.total}
-                  </td>
-                  <td className="px-4 lg:px-5 xl:px-6 py-3 lg:py-4">
-                    {r.assigned}
-                  </td>
-                  <td className="px-4 lg:px-5 xl:px-6 py-3 lg:py-4 text-right">
-                    <button className="h-8 w-8 lg:h-10 lg:w-10 inline-flex items-center justify-center rounded-md hover:bg-slate-100 text-lg lg:text-xl">
-                      ⋮
+    <div className="mx-6 my-4">
+      {/* Table */}
+      <div className="bg-white shadow-sm rounded-lg overflow-hidden">
+        <table className="min-w-full divide-y divide-gray-200">
+          <thead className="bg-gray-50">
+            <tr>
+              <th className="px-6 py-3 text-left text-base font-medium text-[#093B42] tracking-wider">
+                <div className="flex items-center gap-3">
+                  <div className="w-6 h-6"></div>
+                  <div className="w-8 h-8"></div>
+                  <div className="flex items-center gap-2">
+                    <span>Issues</span>
+                    <DownArrowIcon />
+                  </div>
+                </div>
+              </th>
+              <th className="px-6 py-3 text-left font-medium text-[#093B42] tracking-wider">
+                <div className="flex items-center gap-2">
+                  <span>Category</span>
+                  <DownArrowIcon />
+                </div>
+              </th>
+              <th className="px-6 py-3 text-left font-medium text-[#093B42] tracking-wider">
+                <div className="flex items-center gap-2">
+                  <span>Area</span>
+                  <DownArrowIcon />
+                </div>
+              </th>
+              <th className="px-6 py-3 text-left font-medium text-[#093B42] tracking-wider">
+                <div className="flex items-center gap-2">
+                  <span>Severity</span>
+                  <DownArrowIcon />
+                </div>
+              </th>
+              <th className="px-6 py-3 text-left font-medium text-[#093B42] tracking-wider">
+                <div className="flex items-center gap-2">
+                  <span>WCAG</span>
+                  <DownArrowIcon />
+                </div>
+              </th>
+              <th className="px-6 py-3 text-left font-medium text-[#093B42] tracking-wider">
+                <div className="flex items-center gap-2">
+                  <span>Page</span>
+                  <DownArrowIcon />
+                </div>
+              </th>
+              <th className="px-6 py-3 text-left font-medium text-[#093B42] tracking-wider">
+                <div className="flex items-center gap-2">
+                  <span>Total Issues</span>
+                  <DownArrowIcon />
+                </div>
+              </th>
+              <th className="px-6 py-3 text-left font-medium text-[#093B42] tracking-wider">
+                <div className="flex items-center gap-2">
+                  <span>Assigned</span>
+                  <DownArrowIcon />
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody className="bg-white divide-y divide-gray-200">
+            {mockData.map((row) => (
+              <tr key={row.id} className="hover:bg-gray-50">
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <div className="flex items-center gap-3">
+                    <button className="w-6 h-6">
+                      <PlusIcon />
                     </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-slate-200 px-4 lg:px-6 py-3 lg:py-4 text-sm lg:text-base">
-          <div className="flex items-center gap-2">
-            <button className="h-8 w-8 lg:h-10 lg:w-10 rounded-md border border-slate-200 text-lg lg:text-xl">
-              ‹
-            </button>
-            <div className="flex items-center gap-1">
-              {Array.from({ length: 5 }).map((_, i) => (
-                <button
-                  key={i}
-                  className={`h-8 w-8 lg:h-10 lg:w-10 rounded-md ${
-                    i === 0
-                      ? "bg-slate-900 text-white"
-                      : "border border-slate-200"
-                  }`}
-                >
-                  {i + 1}
-                </button>
-              ))}
-            </div>
-            <button className="h-8 w-8 lg:h-10 lg:w-10 rounded-md border border-slate-200 text-lg lg:text-xl">
-              ›
-            </button>
-          </div>
-          <div className="flex items-center gap-2 w-full sm:w-auto justify-center sm:justify-start">
-            <span className="text-xs sm:text-sm">Items per page</span>
-            <select className="h-8 rounded-md border border-slate-200 px-2">
-              <option>10</option>
-              <option>20</option>
-              <option>50</option>
-            </select>
-          </div>
-        </div>
+                    <div className="w-8 h-8 bg-teal-500 rounded-full flex items-center justify-center">
+                      <FileIcon />
+                    </div>
+                    <a
+                      href="#"
+                      className="font-medium underline text-[#093B42]"
+                    >
+                      {row.issueName}
+                    </a>
+                  </div>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-[#093B42]">
+                  {row.category}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-[#093B42]">
+                  {row.area}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <div className="flex items-center gap-2">
+                    <div
+                      className={`w-2 h-2 rounded-full ${getSeverityDotColor(
+                        row.severity
+                      )}`}
+                    ></div>
+                    <span
+                      className={`font-medium ${getSeverityColor(
+                        row.severity
+                      )}`}
+                    >
+                      {row.severity}
+                    </span>
+                  </div>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <div className="flex items-center gap-1">
+                    <div className="w-6 h-6 flex items-center justify-center">
+                      <AccessibiltyIcon />
+                    </div>
+                    <span className="text-[#093B42]">{row.wcag}</span>
+                  </div>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-[#093B42]">
+                  {row.page}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-[#093B42]">
+                  {row.totalIssues}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <div className="flex items-center gap-2">
+                    {row.assigned.type === "assigned" && (
+                      <div className="flex flex-col justify-center">
+                        <div className="w-6 h-6 bg-teal-500 rounded-full flex items-center justify-center">
+                          <UserIcon />
+                        </div>
+                        <span className="text-sm text-gray-900">
+                          {row.assigned.names?.[0]}
+                        </span>
+                      </div>
+                    )}
+                    {row.assigned.type === "multiple" && (
+                      <div className="flex gap-2">
+                        {row.assigned.names?.map((name, index) => (
+                          <div
+                            key={index}
+                            className="flex flex-col items-center gap-1"
+                          >
+                            <div className="w-6 h-6 bg-teal-500 rounded-full flex items-center justify-center">
+                              <UserIcon />
+                            </div>
+                            <span className="text-xs text-[#093B42]">
+                              {name}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                    {row.assigned.type === "not-assigned" && (
+                      <div className="flex flex-col items-center">
+                        <div className="w-6 h-6 flex items-center justify-center">
+                          <NotAssignedIcon />
+                        </div>
+                        <span className="text-sm text-gray-500">
+                          Not Assigned
+                        </span>
+                      </div>
+                    )}
+                    <button className="ml-2 p-1 hover:bg-gray-200 rounded">
+                      <MoreIcon />
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
-    </section>
+    </div>
   );
 }

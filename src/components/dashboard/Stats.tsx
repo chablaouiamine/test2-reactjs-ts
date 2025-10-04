@@ -8,9 +8,10 @@ import MinorIssueIcon from "../../assets/icons/MinorIssueIcon";
 export default function Stats() {
   return (
     <section className="px-4 md:px-6 mt-4">
-      <div className="flex flex-col sm:flex-row gap-3 lg:gap-4 xl:gap-5 justify-between">
+      {/* Mobile: Single column, Large screens: Row layout */}
+      <div className="flex flex-col lg:flex-row gap-4 lg:gap-6">
         {/* Total Issues */}
-        <div className="rounded-2xl border border-slate-200 bg-white p-4">
+        <div className="flex-1 rounded-2xl border border-slate-200 bg-white py-2 px-12 lg:px-14">
           <div className="text-base text-center font-medium text-[#093B42] mb-3">
             Total Issues
           </div>
@@ -23,7 +24,7 @@ export default function Stats() {
         </div>
 
         {/* Issues by Priority */}
-        <div className="rounded-2xl border border-slate-200 bg-white p-4">
+        <div className="flex-1 rounded-2xl border border-slate-200 bg-white py-2 px-12 lg:px-14">
           <div className="text-base text-center font-medium text-[#093B42] mb-3">
             Issues by Priority
           </div>
@@ -32,8 +33,8 @@ export default function Stats() {
           </div>
         </div>
 
-        {/* Critical and Medium Issues */}
-        <div className="flex flex-col gap-3 justify-between">
+        {/* Critical and Medium Issues Column */}
+        <div className="flex flex-col gap-4 lg:gap-6 flex-1 justify-between">
           {/* Critical Issues */}
           <div className="rounded-2xl border border-slate-200 bg-white p-4">
             <div className="flex items-center gap-3">
@@ -59,8 +60,8 @@ export default function Stats() {
           </div>
         </div>
 
-        {/* High and Low Issues */}
-        <div className="flex flex-col gap-3 justify-between">
+        {/* High and Low Issues Column */}
+        <div className="flex flex-col gap-4 lg:gap-6 flex-1 justify-between">
           {/* High Issues */}
           <div className="rounded-2xl border border-slate-200 bg-white p-4">
             <div className="flex items-center gap-3">

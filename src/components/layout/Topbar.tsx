@@ -15,7 +15,7 @@ export default function Topbar() {
           </button>
           <div className="flex items-center gap-2 lg:gap-3">
             <button
-              className="inline-flex items-center gap-1 h-8 lg:h-10 rounded-lg px-2 lg:px-3 bg-[#BFE7DF] text-[#093B42] hover:bg-[#A8D8C9] transition-colors"
+              className="inline-flex items-center gap-1 h-8 lg:h-10 rounded-lg px-2 lg:px-3 bg-[#86d5c6] text-[#093B42] hover:bg-[#A8D8C9] transition-colors"
               aria-label="Account"
             >
               <UserIcon />
