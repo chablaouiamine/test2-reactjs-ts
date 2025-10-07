@@ -147,17 +147,23 @@ export default function Dashboard() {
                       <div className="flex gap-4">
                         <button className="flex items-center gap-1">
                           <CancelIcon />
-                          <span>Cancel</span>
+                          <span className="text-[#093B42] underline decoration-2 underline-offset-4">
+                            Cancel
+                          </span>
                         </button>
 
                         <button className="flex items-center gap-1">
                           <UndoIcon />
-                          <span>Undo</span>
+                          <span className="text-[#093B42] underline decoration-2 underline-offset-4">
+                            Undo
+                          </span>
                         </button>
 
                         <button className="flex items-center gap-1">
                           <SaveIcon />
-                          <span>Save</span>
+                          <span className="text-[#093B42] underline decoration-2 underline-offset-4">
+                            Save
+                          </span>
                         </button>
                       </div>
                     </div>
